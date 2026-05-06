@@ -19,15 +19,37 @@ Homebrew (formulae + casks + taps) replaces apt + mise, no systemd auto-sync.
 
 Podman, gcloud, raycast, etc. aren't tracked — their state is Mac-specific and regenerated on first use of the tool.
 
-## Quick start (new Mac)
+## Quick start (new Mac, cold start)
+
+Order matters — the SSH key needed to clone this repo lives in the sensitive bundle, so restore that **first**.
 
 ```sh
+# 1. Get mac-sensitive-*.tar.gz onto the Mac (iCloud / external drive / 1Password).
+#    Then restore SSH keys, .gitconfig, AWS, kube, etc.:
+tar -xpzf ~/Desktop/mac-sensitive-*.tar.gz -C ~
+
+# 2. Clone (macOS pops the Command Line Tools dialog the first time `git` runs;
+#    accept it and re-run the clone):
 git clone git@github.com:omerh/mac-dotfiles.git ~/personal/mac-dotfiles
+
+# 3. Bootstrap:
 cd ~/personal/mac-dotfiles
 ./install.sh
 ```
 
-`install.sh` handles: Homebrew → `brew bundle install` from `Brewfile` (formulae, casks, taps, mas) → `stow` every package → set brew zsh as default shell → install lefthook git hooks. zinit self-installs from `.zshrc` on first shell open.
+`install.sh` handles: Xcode CLT (idempotent — usually already installed by step 2) → Homebrew → `brew bundle install` from `Brewfile` (formulae, casks, taps) → `stow` every package → set brew zsh as default shell → install lefthook git hooks. zinit self-installs from `.zshrc` on first shell open.
+
+Expect to be present at the keyboard during the run: `sudo` password (for `/etc/shells` + some casks), and a few cask-specific GUI installers (1Password, Tailscale, etc.). If a couple of `vscode --install-extension` lines fail on the first pass, re-run `brew bundle install --file=Brewfile` to catch them.
+
+After the dotfiles install, see [Manual installation](#manual-installation-not-in-brewfile) for Mac App Store apps and vendor-only downloads.
+
+Restore the rest of the bundle later with:
+
+```sh
+./scripts/restore-sensitive.sh   # idempotent — runs on already-restored bundle too
+```
+
+(You can also skip step 1 above and run `restore-sensitive.sh` after install if you'd rather; you'll just need to clone via HTTPS + paste a GitHub token.)
 
 ## Updating the Brewfile
 
