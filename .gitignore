@@ -1,0 +1,18 @@
+.DS_Store
+*.swp
+*.swo
+
+# Zed local state — only settings.json is tracked
+zed/.config/zed/conversations/
+zed/.config/zed/db/
+zed/.config/zed/themes/
+zed/.config/zed/prompts/
+
+# Never commit these even if accidentally moved into the tree
+**/hosts.yml
+**/auth.json
+**/credentials
+**/*.pem
+**/*.key
+.env
+.env.*

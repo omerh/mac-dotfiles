@@ -1,0 +1,119 @@
+#:schema https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+
+version = 2
+final_space = true
+console_title_template = '{{ .Shell }} in {{ .Folder }}'
+
+[palette]
+grey = '#6c6c6c'
+
+[[blocks]]
+type = 'prompt'
+alignment = 'left'
+newline = true
+
+[[blocks.segments]]
+type = 'path'
+style = 'plain'
+background = 'transparent'
+foreground = 'cyan'
+template = '<b>{{ .Path }}</b>'
+
+[blocks.segments.properties]
+style = 'full'
+
+[[blocks.segments]]
+type = 'git'
+style = 'plain'
+foreground = 'white'
+background = 'transparent'
+template = ' <blue><b>git:(</b></blue><red><b>{{ .HEAD }}</b></red><blue><b>)</b></blue>{{ if or (.Working.Changed) (.Staging.Changed) }}<yellow>✗</yellow>{{ end }}<cyan>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</cyan>'
+
+[blocks.segments.properties]
+branch_icon = ''
+commit_icon = '@'
+fetch_status = true
+fetch_upstream_icon = true
+
+[[blocks]]
+type = 'rprompt'
+overflow = 'hidden'
+
+[[blocks.segments]]
+type = 'aws'
+style = 'plain'
+foreground = 'yellow'
+background = 'transparent'
+template = '{{ if ne .Profile "default" }}aws_profile={{ .Profile }} {{ end }}{{ if .RegionAlias }} aws_region={{ .RegionAlias }} {{ end }}'
+
+[[blocks.segments]]
+type = 'terraform'
+style = 'plain'
+foreground = 'magenta'
+background = 'transparent'
+template = 'tf={{ .WorkspaceName }}'
+
+[blocks.segments.properties]
+fetch_version = false
+
+[[blocks.segments]]
+type = 'python'
+style = 'plain'
+foreground = 'green'
+background = 'transparent'
+template = '{{ if .Venv }} venv={{ .Venv }}{{ end }}'
+
+[blocks.segments.properties]
+fetch_virtual_env = true
+display_default = true
+folder_name_fallback = true
+
+[[blocks.segments]]
+type = 'kubectl'
+style = 'plain'
+foreground = 'blue'
+background = 'transparent'
+template = '{{ if .Context }} ctx={{ if contains "cluster/" .Context }}{{ (split "cluster/" .Context)._1 }}{{ else }}{{ .Context }}{{ end }}{{ end }}'
+
+
+[blocks.segments.properties]
+display_mode = 'environment'
+
+[[blocks.segments]]
+type = 'executiontime'
+style = 'plain'
+foreground = 'yellow'
+background = 'transparent'
+template = ' {{ .FormattedMs }}'
+
+[blocks.segments.properties]
+threshold = 500
+
+[[blocks]]
+type = 'prompt'
+alignment = 'left'
+newline = true
+
+[[blocks.segments]]
+type = 'text'
+style = 'plain'
+foreground = 'white'
+foreground_templates = [
+  "{{if gt .Code 0}}red{{end}}",
+  "{{if eq .Code 0}}green{{end}}",
+]
+background = 'transparent'
+template = '{{ if gt .Code 0 }}<red>❯</red>{{ else }}<green>❯</green>{{ end }}'
+
+[transient_prompt]
+foreground_templates = [
+  "{{if gt .Code 0}}red{{end}}",
+  "{{if eq .Code 0}}green{{end}}",
+]
+background = 'transparent'
+template = '❯ '
+
+[secondary_prompt]
+foreground = 'yellow'
+background = 'transparent'
+template = '❯❯ '

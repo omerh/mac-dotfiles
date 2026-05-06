@@ -1,0 +1,13 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+	name = omerh
+	email = omerh@me.com
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
+[core]
+	excludesfile = /Users/omer/.gitignore_global
+[init]
+	defaultbranch = main
