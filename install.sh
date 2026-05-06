@@ -21,7 +21,17 @@ else
   info "Xcode Command Line Tools already installed"
 fi
 
-# 2. Homebrew
+# 2. Touch ID for sudo (one password prompt now, biometric for the rest of this script)
+SUDO_LOCAL="/etc/pam.d/sudo_local"
+if ! sudo grep -q '^auth.*pam_tid.so' "$SUDO_LOCAL" 2>/dev/null; then
+  info "Enabling Touch ID for sudo..."
+  echo 'auth       sufficient     pam_tid.so' | sudo tee "$SUDO_LOCAL" >/dev/null
+  sudo chmod 644 "$SUDO_LOCAL"
+else
+  info "Touch ID for sudo already enabled"
+fi
+
+# 3. Homebrew
 if ! command -v brew &>/dev/null; then
   info "Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -30,16 +40,16 @@ else
   info "Homebrew already installed"
 fi
 
-# 3. Everything from Brewfile (formulae, casks, taps, mas)
+# 4. Everything from Brewfile (formulae, casks, taps, mas)
 info "Installing packages from Brewfile..."
 brew bundle install --file="$DOTFILES_DIR/Brewfile"
 
-# 4. Stow all packages
+# 5. Stow all packages
 info "Stowing dotfiles..."
 cd "$DOTFILES_DIR"
 stow --target="$HOME" --restow zsh vim git ghostty gh ohmyposh zed
 
-# 5. Default shell
+# 6. Default shell
 ZSH_BIN="$(brew --prefix)/bin/zsh"
 if [[ "$SHELL" != "$ZSH_BIN" ]]; then
   info "Setting brew zsh as default shell..."
@@ -50,7 +60,7 @@ else
   info "zsh already the default shell"
 fi
 
-# 6. Lefthook hooks
+# 7. Lefthook hooks
 info "Installing lefthook git hooks..."
 lefthook install
 
