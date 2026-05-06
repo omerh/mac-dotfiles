@@ -102,20 +102,56 @@ brew "anomalyco/tap/opencode"
 brew "hashicorp/tap/terraform"
 # Stripe CLI utility
 brew "stripe/stripe-cli/stripe"
+# Password manager that keeps all passwords secure behind one password
+cask "1password"
 # Command-line interface for 1Password
 cask "1password-cli"
+# Allows connection to a computer remotely
+cask "anydesk"
+# Web browser focusing on privacy
+cask "brave-browser"
 # Open source IDE for exploring and testing APIs
 cask "bruno"
+# OpenAI's official ChatGPT desktop app
+cask "chatgpt"
+# Anthropic's official Claude AI desktop app
+cask "claude"
+# Write, edit, and chat about your code with AI
+cask "cursor"
+# Universal database tool and SQL client
+cask "dbeaver-community"
+# Voice and text chat software
+cask "discord"
+# Web browser
+cask "firefox"
 # Set of tools to manage resources and applications hosted on Google Cloud
 cask "gcloud-cli"
+# Terminal emulator that uses platform-native UI and GPU acceleration
+cask "ghostty"
+# Web browser
+cask "google-chrome"
+# Terminal emulator as alternative to Apple's Terminal app
+cask "iterm2"
 # Reverse proxy, secure introspectable tunnels to localhost
 cask "ngrok"
 # Administration and development platform for PostgreSQL
 cask "pgadmin4"
 # Browse, manage, inspect containers and images
 cask "podman-desktop"
+# Control your tools with a few keystrokes
+cask "raycast"
+# Real time file synchronisation software
+cask "syncthing"
+# Mesh VPN based on WireGuard
+cask "tailscale-app"
+# Messaging app with a focus on speed and security
+cask "telegram"
+# Open-source code editor
+cask "visual-studio-code"
 # Multiplayer code editor
 cask "zed"
+# Video communication and virtual meeting platform
+cask "zoom"
 vscode "4ops.terraform"
 vscode "amazonwebservices.aws-toolkit-vscode"
 vscode "anthropic.claude-code"

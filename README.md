@@ -79,6 +79,41 @@ Restore on the new machine:
 tar -xzf mac-sensitive-*.tar.gz -C ~
 ```
 
+## Manual installation (not in Brewfile)
+
+Some apps can't be reinstalled by `./install.sh` and need a manual step on the new Mac.
+
+### Mac App Store
+
+These were installed via the Mac App Store. To track them in the Brewfile, install [`mas`](https://github.com/mas-cli/mas) and re-run `brew bundle dump`:
+
+```sh
+brew install mas
+mas list                                          # see what's signed in
+brew bundle dump --file=Brewfile --describe --force
+```
+
+| App | Notes |
+|-----|-------|
+| TickTick | |
+| 1Password for Safari | Safari extension |
+| Microsoft Word / Excel / PowerPoint / Outlook / Teams | Office 365 — login required after install |
+| Ghostery Privacy Ad Blocker | |
+| WorkSpaces | AWS WorkSpaces client |
+| Gemini | Verify whether this is the MAS or direct version |
+
+### Vendor-only downloads (no cask available)
+
+| App | Source |
+|-----|--------|
+| DisplayLink Manager | [displaylink.com](https://www.displaylink.com/downloads/macos) — required if using a DisplayLink dock |
+| Logitech Options+ | [logitech.com](https://www.logitech.com/software/logi-options-plus.html) — for MX/Logitech peripherals |
+
+### Comes with macOS / auto-installed
+
+- Safari (system app)
+- Claude Code URL Handler.app — installed automatically by Claude Code on first run
+
 ## What's intentionally NOT tracked
 
 Caches and regenerable state — `.cache/`, `.npm/`, `.zcompcache/`, `.zcompdump*`, `*_history`, `.cargo/`, `.rustup/`, `.aws-sam/`, `.terraform.d/plugin-cache`, `.dbt/`, `.duckdb/`, `.snowflake/`, etc. Brewfile + `install.sh` will recreate these on the new machine.
