@@ -76,8 +76,11 @@ The bundle is plain `tar.gz` — store it in 1Password / iCloud / an external di
 Restore on the new machine:
 
 ```sh
-tar -xzf mac-sensitive-*.tar.gz -C ~
+./scripts/restore-sensitive.sh                              # newest tar.gz on ~/Desktop
+./scripts/restore-sensitive.sh /path/to/mac-sensitive-*.tar.gz   # explicit path
 ```
+
+The script previews the archive, prompts before extracting, runs `tar -xpzf` to preserve permissions, then re-tightens `.ssh`, `.gnupg`, `.aws/credentials`, and `.netrc` defensively (700 / 600) in case the source perms drifted.
 
 ## Manual installation (not in Brewfile)
 
