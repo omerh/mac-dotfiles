@@ -94,6 +94,8 @@ brew "yazi"
 brew "yq"
 # Programming language designed for robustness, optimality, and clarity
 brew "zig"
+# UNIX shell (command interpreter)
+brew "zsh"
 # Shell extension to navigate your filesystem faster
 brew "zoxide"
 # The AI coding agent built for the terminal.

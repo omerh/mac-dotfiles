@@ -104,6 +104,23 @@ Restore on the new machine:
 
 The script previews the archive, prompts before extracting, runs `tar -xpzf` to preserve permissions, then re-tightens `.ssh`, `.gnupg`, `.aws/credentials`, and `.netrc` defensively (700 / 600) in case the source perms drifted.
 
+### Restoring after `install.sh` already ran
+
+The recommended order is sensitive-first, then `install.sh` — but if you flipped it, one file trips up the restore: `.config/gh/hosts.yml`. After stow, `~/.config/gh` is a directory symlink into the repo, and bsdtar refuses to extract through symlinks (a libarchive safety feature against archive-symlink traversal). Everything else extracts fine, but `tar` exits non-zero and `restore-sensitive.sh` skips the permissions hardening at the end.
+
+Recover with:
+
+```sh
+# 1. Drop hosts.yml into place via a tmpdir (cp follows the symlink; **/hosts.yml is gitignored)
+TMP=$(mktemp -d) && tar -xzf ~/Desktop/mac-sensitive-*.tar.gz -C "$TMP" .config/gh/hosts.yml \
+  && cp "$TMP/.config/gh/hosts.yml" ~/.config/gh/hosts.yml && rm -rf "$TMP"
+
+# 2. Re-run the perms hardening that the aborted restore skipped
+chmod 700 ~/.ssh && find ~/.ssh -type f ! -name '*.pub' ! -name 'known_hosts*' -exec chmod 600 {} +
+[[ -f ~/.aws/credentials ]] && chmod 600 ~/.aws/credentials
+[[ -f ~/.netrc ]] && chmod 600 ~/.netrc
+```
+
 ## Manual installation (not in Brewfile)
 
 Some apps can't be reinstalled by `./install.sh` and need a manual step on the new Mac.
