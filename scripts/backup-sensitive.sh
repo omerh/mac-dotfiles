@@ -27,8 +27,8 @@ PATHS=(
   .codex
 
   # JetBrains IDEs (WebStorm, IntelliJ, etc.) — macOS stores config under ~/Library
-  "Library/Application Support/JetBrains"
-  "Library/Preferences/com.jetbrains.WebStorm.plist"
+  #  "Library/Application Support/JetBrains"
+  #  "Library/Preferences/com.jetbrains.WebStorm.plist"
 
   # Cloud SDK / tool creds living under .config
   .config/gcloud
