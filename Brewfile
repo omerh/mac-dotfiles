@@ -64,6 +64,10 @@ brew "powershell"
 brew "redis"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
+# Safe, concurrent, practical language
+brew "rust"
+# 7-Zip is a file archiver with a high compression ratio
+brew "sevenzip"
 # CLI for snowflake
 brew "snowflake-cli"
 # Organize software neatly under a single directory tree (e.g. /usr/local)
@@ -92,12 +96,14 @@ brew "xh"
 brew "yazi"
 # Process YAML, JSON, XML, CSV and properties documents from the CLI
 brew "yq"
+# Feature-rich command-line audio/video downloader
+brew "yt-dlp"
 # Programming language designed for robustness, optimality, and clarity
 brew "zig"
-# UNIX shell (command interpreter)
-brew "zsh"
 # Shell extension to navigate your filesystem faster
 brew "zoxide"
+# UNIX shell (command interpreter)
+brew "zsh"
 # The AI coding agent built for the terminal.
 brew "anomalyco/tap/opencode"
 # Terraform
@@ -142,8 +148,6 @@ cask "pgadmin4"
 cask "podman-desktop"
 # Control your tools with a few keystrokes
 cask "raycast"
-# Real time file synchronisation software
-cask "syncthing"
 # Mesh VPN based on WireGuard
 cask "tailscale-app"
 # Messaging app with a focus on speed and security
@@ -157,8 +161,10 @@ cask "zoom"
 vscode "4ops.terraform"
 vscode "amazonwebservices.aws-toolkit-vscode"
 vscode "anthropic.claude-code"
+vscode "blueglassblock.better-json5"
 vscode "bradlc.vscode-tailwindcss"
 vscode "bruno-api-client.bruno"
+vscode "catppuccin.catppuccin-vsc"
 vscode "charliermarsh.ruff"
 vscode "david-reis.crashacters"
 vscode "davidanson.vscode-markdownlint"
@@ -168,26 +174,19 @@ vscode "esbenp.prettier-vscode"
 vscode "github.vscode-github-actions"
 vscode "golang.go"
 vscode "hashicorp.terraform"
-vscode "mattiasbaake.vscode-snippets-for-ansible"
+vscode "matthewpi.caddyfile-support"
 vscode "mechatroner.rainbow-csv"
-vscode "ms-azuretools.vscode-bicep"
+vscode "mk12.better-git-line-blame"
 vscode "ms-azuretools.vscode-containers"
-vscode "ms-dotnettools.vscode-dotnet-runtime"
 vscode "ms-kubernetes-tools.vscode-kubernetes-tools"
 vscode "ms-python.debugpy"
 vscode "ms-python.isort"
 vscode "ms-python.python"
 vscode "ms-python.vscode-pylance"
 vscode "ms-python.vscode-python-envs"
-vscode "ms-toolsai.jupyter"
-vscode "ms-toolsai.jupyter-keymap"
-vscode "ms-toolsai.jupyter-renderers"
-vscode "ms-toolsai.vscode-jupyter-cell-tags"
-vscode "ms-toolsai.vscode-jupyter-slideshow"
 vscode "ms-vscode-remote.remote-containers"
 vscode "ms-vscode-remote.remote-ssh"
 vscode "ms-vscode-remote.remote-ssh-edit"
-vscode "ms-vscode.makefile-tools"
 vscode "ms-vscode.remote-explorer"
 vscode "openai.chatgpt"
 vscode "quicktype.quicktype"
@@ -196,8 +195,6 @@ vscode "rust-lang.rust-analyzer"
 vscode "shardulm94.trailing-spaces"
 vscode "shd101wyy.markdown-preview-enhanced"
 vscode "tamasfe.even-better-toml"
-vscode "teamsdevapp.ms-teams-vscode-extension"
-vscode "tomoki1207.pdf"
 go "github.com/air-verse/air"
 go "golang.org/x/tools/gopls"
 cargo "cargo-leptos"
