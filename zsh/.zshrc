@@ -177,3 +177,5 @@ alias dbtf=/Users/omer/.local/bin/dbt
 eval "$(mise activate zsh)"
 
 alias gen_password="openssl rand -base64 32 | tr -d '=+/' | cut -c1-32"
+
+command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1 && export GITHUB_TOKEN="$(gh auth token)" || echo "gh not authenticated, run: gh auth login"
