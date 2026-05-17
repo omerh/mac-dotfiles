@@ -9,7 +9,7 @@ error() { printf '\033[1;31m[error]\033[0m %s\n' "$1"; exit 1; }
 
 [[ "$(uname -s)" == "Darwin" ]] || error "This bootstrap is macOS-only. See omerh/dotfiles for Linux."
 
-# 1. Xcode Command Line Tools (git + compilers — required by Homebrew)
+# 1. Xcode Command Line Tools (git + compilers -> required by Homebrew)
 if ! xcode-select -p &>/dev/null; then
   info "Installing Xcode Command Line Tools (a GUI dialog will appear; accept it)..."
   xcode-select --install || true
@@ -64,5 +64,22 @@ fi
 info "Installing lefthook git hooks..."
 lefthook install
 
-info "Done. Open a new terminal — zinit will self-install on first shell."
+# Create podman instance
+if ! podman machine list --format "{{.Name}}" | grep -q "^default$"; then
+  info "Creating podman machine instance..."
+  podman machine init --cpus=4 --memory=8192 --disk-size=10000 default
+  podman machine start default
+else
+  info "Podman machine instance already exists"
+fi
+
+# Install claude code native installation
+if ! command -v claude &>/dev/null; then
+  info "Installing claude code..."
+  curl -fsSL https://claude.ai/install.sh | bash
+else
+  info "claude code already installed"
+fi
+
+info "Done. Open a new terminal - zinit will self-install on first shell."
 info "Restore secrets with: tar -xzf <mac-sensitive-*.tar.gz> -C \$HOME"
