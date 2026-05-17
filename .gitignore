@@ -2,7 +2,7 @@
 *.swp
 *.swo
 
-# Zed local state — only settings.json is tracked
+# Zed local state - only settings.json is tracked
 zed/.config/zed/conversations/
 zed/.config/zed/db/
 zed/.config/zed/themes/
