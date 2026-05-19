@@ -67,8 +67,8 @@ lefthook install
 # Create podman instance
 if ! podman machine list --format "{{.Name}}" | grep -q "^default$"; then
   info "Creating podman machine instance..."
-  podman machine init --cpus=4 --memory=8192 --disk-size=10000 default
-  podman machine start default
+  podman machine init
+  podman machine start
 else
   info "Podman machine instance already exists"
 fi
