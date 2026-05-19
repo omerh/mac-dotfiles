@@ -180,3 +180,4 @@ alias gen_password="openssl rand -base64 32 | tr -d '=+/' | cut -c1-32"
 
 export GITHUB_TOKEN="$(gh auth token)" || echo "gh not authenticated, run: gh auth login"
 
+export PATH="$HOME/.local/bin:$PATH"
