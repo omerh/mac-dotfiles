@@ -23,10 +23,10 @@
   },
   "agent": {
     "default_model": {
+      "effort": "high",
       "provider": "anthropic",
-      "model": "claude-opus-4-7-latest",
-      "enable_thinking": true,
-      "effort": "high"
+      "model": "claude-opus-4-7",
+      "enable_thinking": true
     },
     "dock": "right",
     "favorite_models": [],

@@ -4,6 +4,10 @@ if [[ -f "/opt/homebrew/bin/brew" ]] then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
+# Keep core zsh autoloads resolvable across brew zsh upgrades
+# (version-agnostic symlink; holds is-at-least, add-zsh-hook, compinit, bashcompinit, colors)
+fpath=( /opt/homebrew/share/zsh/functions $fpath )
+
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
@@ -33,9 +37,9 @@ zinit snippet OMZP::sudo
 zinit snippet OMZP::dotenv
 zinit snippet OMZP::command-not-found
 
-# GCLOUD
-source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
-source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
+# GCLOUD  (use $HOMEBREW_PREFIX from `brew shellenv` instead of forking `brew --prefix` twice)
+source "$HOMEBREW_PREFIX/share/google-cloud-sdk/path.zsh.inc"
+source "$HOMEBREW_PREFIX/share/google-cloud-sdk/completion.zsh.inc"
 
 # fnm completion
 eval "$(fnm env --use-on-cd --shell zsh)"
@@ -158,8 +162,17 @@ export PATH=$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools
 # Locale settings
 export LC_TIME="en_US.UTF-8"
 
-# Podman to docker for SAM
-export DOCKER_HOST="unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')"
+# Podman to docker for SAM — cache the socket path (stable per machine) instead of
+# forking `podman machine inspect` (~100ms) on every shell. Run `rm` on the cache file
+# below after recreating the podman machine to refresh it.
+__docker_host_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/docker_host"
+if [[ -r $__docker_host_cache ]]; then
+  export DOCKER_HOST="$(<$__docker_host_cache)"
+elif __sock=$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}' 2>/dev/null) && [[ -n $__sock ]]; then
+  export DOCKER_HOST="unix://$__sock"
+  mkdir -p "${__docker_host_cache:h}" && print -r -- "$DOCKER_HOST" > "$__docker_host_cache"
+fi
+unset __sock __docker_host_cache
 
 # Shell integrations (only in interactive shells)
 if [[ $- == *i* ]]; then
@@ -181,3 +194,9 @@ alias gen_password="openssl rand -base64 32 | tr -d '=+/' | cut -c1-32"
 export GITHUB_TOKEN="$(gh auth token)" || echo "gh not authenticated, run: gh auth login"
 
 export PATH="$HOME/.local/bin:$PATH"
+
+alias ccc="code . && claude"
+
+# Un-export FPATH: zinit exports it, which leaks a version-pinned Cellar path into
+# child shells and breaks autoloads after a brew zsh upgrade. Keep fpath shell-local.
+typeset +x FPATH
