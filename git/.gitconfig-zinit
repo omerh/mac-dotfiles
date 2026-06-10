@@ -1,0 +1,9 @@
+# Applied only to repos under ~/.local/share/zinit/ (zinit plugins & snippets).
+# Third-party plugin upstreams aren't signed by keys in our allowed_signers,
+# so global merge.verifySignatures would reject every `zinit update`.
+[merge]
+	verifySignatures = false
+[commit]
+	gpgsign = false
+[tag]
+	gpgsign = false

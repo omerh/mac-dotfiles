@@ -3,6 +3,7 @@
 # Please adapt and uncomment the following lines:
 	name = omerh
 	email = omerh@me.com
+	signingkey = /Users/omer/.ssh/id_ed25519_1p.pub
 [pull]
 	rebase = true
 [push]
@@ -11,3 +12,16 @@
 	excludesfile = /Users/omer/.gitignore_global
 [init]
 	defaultbranch = main
+[commit]
+	gpgsign = true
+[tag]
+	gpgsign = true
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+	allowedSignersFile = /Users/omer/.ssh/allowed_signers
+[merge]
+	verifySignatures = true
+[includeIf "gitdir:~/.local/share/zinit/"]
+	path = ~/personal/mac-dotfiles/git/.gitconfig-zinit

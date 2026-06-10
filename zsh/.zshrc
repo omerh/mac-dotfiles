@@ -191,12 +191,18 @@ eval "$(mise activate zsh)"
 
 alias gen_password="openssl rand -base64 32 | tr -d '=+/' | cut -c1-32"
 
-export GITHUB_TOKEN="$(gh auth token)" || echo "gh not authenticated, run: gh auth login"
+#export GITHUB_TOKEN="$(gh auth token)" || echo "gh not authenticated, run: gh auth login"
 
 export PATH="$HOME/.local/bin:$PATH"
 
 alias ccc="code . && claude"
 
+export GPG_TTY=$(tty)
+
 # Un-export FPATH: zinit exports it, which leaks a version-pinned Cellar path into
 # child shells and breaks autoloads after a brew zsh upgrade. Keep fpath shell-local.
 typeset +x FPATH
+
+# Raise open-file limit (macOS defaults to 256, too low for git scans that fan
+# process substitutions across many branches). Hard limit is unlimited.
+ulimit -n 8192
