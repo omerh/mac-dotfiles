@@ -94,6 +94,8 @@ brew "wget"
 brew "xh"
 # Blazing fast terminal file manager written in Rust, based on async I/O
 brew "yazi"
+# YAML linting
+brew "yamllint"
 # Process YAML, JSON, XML, CSV and properties documents from the CLI
 brew "yq"
 # Feature-rich command-line audio/video downloader
