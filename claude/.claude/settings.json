@@ -1,0 +1,54 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__ide__getDiagnostics",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "mcp__context7__query-docs",
+      "mcp__claude_ai_Sentry__get_sentry_resource",
+      "mcp__claude_ai_Sentry__find_organizations",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:aws.amazon.com)",
+      "WebFetch(domain:registry.terraform.io)",
+      "WebFetch(domain:community.cloudflare.com)",
+      "WebFetch(domain:developers.cloudflare.com)",
+      "WebFetch(domain:grafana.com)",
+      "Read(*)",
+      "Bash(terraform state show:*)",
+      "Bash(terraform fmt:*)",
+      "Bash(tree:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(grep:*)",
+      "Bash(curl:*)",
+      "Bash(printenv:*)",
+      "Bash(cd:*)",
+      "Bash(ssh:*)",
+      "Bash(xargs basename:*)",
+      "Bash(gh pr:*)",
+      "Bash(kubectl get:*)",
+      "Bash(kubectl kustomize:*)",
+      "Bash(aws ssm:*)"
+    ],
+    "defaultMode": "default",
+    "block": [
+      "Bash(kubectl delete:*)"
+    ]
+  },
+  "model": "claude-fable-5[1m]",
+  "enabledPlugins": {
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true
+  },
+  "tui": "default",
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true
+}

@@ -48,6 +48,10 @@ brew bundle install --file="$DOTFILES_DIR/Brewfile"
 info "Stowing dotfiles..."
 cd "$DOTFILES_DIR"
 stow --target="$HOME" --restow zsh vim git ghostty gh ohmyposh zed
+# claude is stowed with --no-folding: ~/.claude also holds runtime state
+# (sessions, history, plugins) that must stay out of the repo, so only the
+# tracked files inside it may be symlinked, never the directory itself
+stow --target="$HOME" --restow --no-folding claude
 
 # 6. Default shell
 ZSH_BIN="$(brew --prefix)/bin/zsh"

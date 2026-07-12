@@ -112,9 +112,6 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Aliases
-alias l='eza -snew'
-alias ls='eza -snew'
-alias ll='eza -l -snew'
 alias c='clear'
 alias k='kubectl'
 alias kx='kubectx'
@@ -175,11 +172,15 @@ elif __sock=$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Pa
 fi
 unset __sock __docker_host_cache
 
-# Shell integrations (only in interactive shells)
+# Shell integrations and aliases that must not leak into non-interactive
+# shells (scripts, Claude Code's Bash tool) where eza/zoxide flags break things
 if [[ $- == *i* ]]; then
   eval "$(fzf --zsh)"
   eval "$(zoxide init zsh)"
   alias cd='z'
+  alias l='eza -snew'
+  alias ls='eza -snew'
+  alias ll='eza -l -snew'
 fi
 # Added by dbt Fusion extension (ensure dbt binary dir on PATH)
 if [[ ":$PATH:" != *":/Users/omer/.local/bin:"* ]]; then

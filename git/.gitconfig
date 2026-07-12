@@ -8,8 +8,6 @@
 	rebase = true
 [push]
 	autoSetupRemote = true
-[core]
-	excludesfile = /Users/omer/.gitignore_global
 [init]
 	defaultbranch = main
 [commit]
