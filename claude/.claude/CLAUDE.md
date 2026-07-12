@@ -5,6 +5,7 @@
 - Other aliases (`ls`/`l`/`ll` -> eza, `cd` -> zoxide) are interactive-only and do not apply to Bash tool commands, but keep them in mind for commands you suggest the user run in their own terminal.
 
 ## Other notes
+
 - `KUBE_EDITOR="zed --wait"` — `kubectl edit` opens Zed.
 - `DOCKER_HOST` is set to the podman socket, so SAM/docker-compose tools talk to podman.
 - `k` = `kubectl`, `kx` = `kubectx`.
