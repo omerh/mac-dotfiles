@@ -128,6 +128,7 @@ alias aws_login_prod="aws sso login --profile prod"
 alias aws_login_org="aws sso login --profile org"
 alias aws_login_analytics="aws sso login --profile analytics"
 
+alias aws_login_enx_fin="aws sso login --profile enx-fin"
 alias aws_login_enx_prod="aws sso login --profile enx-prod"
 alias aws_login_enx_qa="aws sso login --profile enx-qa"
 
