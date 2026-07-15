@@ -37,7 +37,6 @@
       "Bash(kubectl delete:*)"
     ]
   },
-  "model": "claude-fable-5[1m]",
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
