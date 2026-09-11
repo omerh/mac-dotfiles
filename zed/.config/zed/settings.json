@@ -23,9 +23,9 @@
   },
   "agent": {
     "default_model": {
-      "effort": "high",
-      "provider": "anthropic",
-      "model": "claude-opus-4-7",
+      "effort": "medium",
+      "provider": "openai-subscribed",
+      "model": "gpt-6-astra",
       "enable_thinking": true
     },
     "dock": "right",

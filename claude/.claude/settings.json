@@ -25,14 +25,13 @@
       "Bash(curl:*)",
       "Bash(printenv:*)",
       "Bash(cd:*)",
-      "Bash(ssh:*)",
       "Bash(xargs basename:*)",
       "Bash(gh pr:*)",
       "Bash(kubectl get:*)",
       "Bash(kubectl kustomize:*)",
       "Bash(aws ssm:*)"
     ],
-    "defaultMode": "default",
+    "defaultMode": "auto",
     "block": [
       "Bash(kubectl delete:*)"
     ]
@@ -49,5 +48,47 @@
   },
   "tui": "default",
   "agentPushNotifEnabled": true,
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "autoMode": {
+    "allow": [
+      "$defaults",
+      "Bash(cd tf/plans/*/ && AWS_PROFILE=tf ./run*.sh)",
+      "Bash(dig:*)",
+      "Bash(tailscale status)",
+      "Bash(kubectl get:*)"
+    ],
+    "soft_deny": [
+      "$defaults",
+      "Bash(terraform apply:*)",
+      "Bash(terraform destroy:*)",
+      "Bash(aws secretsmanager delete-secret:*)"
+    ],
+    "environment": [
+      "### Org-wide",
+      "**Organization**: techriseio (GitHub org) — Xpend / casino-gaming platform (\"infrastructure\" repo)",
+      "**Cloud provider(s)**: AWS (accounts: prod 531608153814, dev 502818572390, org/root 111607488649, casino-prod 712371619819), Cloudflare (enterprise), DigitalOcean",
+      "**Repository visibility**: private (confirmed via gh)",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: AWS Secrets Manager (with rotation); External Secrets Operator in Kubernetes (many `k8s/*/base/external-secret.yaml` files); no hardcoded secrets in codebase",
+      "**Default / protected branches**: default branch `main`; rulesets active: `Require signed commits`, `org-baseline-protection`, `org-default-branch-protection`; many feature/dashboard branches also individually listed as protected (org uses rulesets, not just classic protection)",
+      "**CI/CD deploy targets**: GitHub Actions (`.github/workflows/`) deploying to ECS and EKS across dev, qa, uat, prod, stealth environments; OIDC auth from GitHub to AWS; Terraform apply via `terraform-apply.yaml`",
+      "**Network posture**: VPC with public/private/database/elasticache subnets, VPC peering between prod/analytics/pragmatic/dev accounts, Tailscale VPN for infra access, SSM Session Manager (no SSH bastions)",
+      "**Source control**: techriseio/infrastructure (this repo) and its origin remote (github.com:techriseio/infrastructure.git) only",
+      "**Trusted internal domains**: None configured",
+      "**Trusted cloud buckets**: enx-prod-lb-access-logs-712371619819 (usage-corroborated — seen in transcript-mining bucket list and config scan); datalake-eu-west-1-926849997863 (config-derived — not a confirmed upload destination; uploads of local data still require confirmation); tf-eu-central-1-111607488649 (Terraform state backend bucket, per terraform-expert.md — config-derived — not a confirmed upload destination; uploads of local data still require confirmation)",
+      "**Key internal services**: AWS Secrets Manager, ECR (502818572390.dkr.ecr.eu-central-1.amazonaws.com), Route53, GuardDuty, ElastiCache/Valkey, Aurora PostgreSQL, ArgoCD, Grafana/Prometheus, Tailscale",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: `.env` / `.env.example` (Cloudflare, DigitalOcean, Namecheap API tokens); `k8s/**/external-secret.yaml` and `k8s/**/rbac.yaml` files across many services; incident-response `IR/` folder and casino-prod (712371619819) breach investigation data — READ-ONLY, evidence-discipline required; share only with cleared engineering/security staff",
+      "**Data retention / declassification**: Aurora backup retention 14 days with point-in-time recovery; None further configured",
+      "**Sensitive remote targets**: any namespace/host/container with `prod` or `production` as a whole word/segment (e.g. `casino-prod-eu-west-1`, `xpend-prod-eu-central-1`, `enx-prod-eu-west-1`, account 712371619819/531608153814); also the `casino-prod`/`islandofodessey` incident-response account (712371619819) — READ-ONLY per security-expert.md",
+      "**Protected deployment namespaces / environments**: k8s namespace `prod`; Terraform workspaces `prod`, `prod-eu-west-1`, `casino-prod-eu-west-1`, `casino-finance-eu-west-1`; never run `terraform apply` — plans only, user applies manually",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything tagged/named `prod` or `production` (e.g. `tf/plans/xpend-prod-eu-central-1/`, `tf/plans/enx-prod-eu-west-1/`); TerraformExecutionRole assume-role targets",
+      "### User-specific",
+      "**Primary use of Claude Code**: infrastructure engineering — Terraform, Kubernetes/EKS, AWS, Cloudflare DNS/CDN, CI/CD, monitoring, and incident response for the Xpend/casino platform",
+      "**Trusted repo**: techriseio/infrastructure (this repo, private) and its origin remote — confidential material (Terraform plans, k8s manifests, secrets references) is fine to work with here, but this repo's own work only for anything pushed",
+      "**Org-specific CLIs**: aws, az, terraform, tailscale, op (1Password CLI), kubectl, helm, gh, dig, yq, yamllint",
+      "routine under tf/plans/*/run*.sh prefix: running Terraform plan scripts (never apply) with AWS_PROFILE=tf, invoked from inside the plan directory, without piping through grep/head/less"
+    ]
+  },
+  "model": "claude-fable-5-1[1m]"
 }

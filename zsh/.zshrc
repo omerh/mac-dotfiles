@@ -120,14 +120,17 @@ alias tailscale='/Applications/Tailscale.app/Contents/MacOS/Tailscale'
 ## AWS
 alias aws_login_dev="aws sso login --profile dev"
 alias aws_ecr_login_dev="aws_login_dev && aws ecr get-login-password --profile dev --region eu-central-1| podman login --username AWS --password-stdin 502818572390.dkr.ecr.eu-central-1.amazonaws.com"
+alias aws_ecr_login_enx_dev="aws_login_enx_dev && aws ecr get-login-password --profile enx-dev --region eu-west-1| podman login --username AWS --password-stdin 241533118296.dkr.ecr.eu-west-1.amazonaws.com"
 alias aws_login_devdev="aws sso login --profile devdev"
 alias aws_login_prod="aws sso login --profile prod"
 alias aws_login_org="aws sso login --profile org"
 alias aws_login_analytics="aws sso login --profile analytics"
-
+alias aws_login_enx_high="aws sso login --profile enx-high"
 alias aws_login_enx_fin="aws sso login --profile enx-fin"
 alias aws_login_enx_prod="aws sso login --profile enx-prod"
-alias aws_login_enx_qa="aws sso login --profile enx-qa"
+alias aws_login_enx_dev="aws sso login --profile enx-dev"
+alias aws_login_enx_orbital="aws sso login --profile enx-orbital"
+alias aws_login_enx_sa_cs="aws sso login --profile enx-sa-cs"
 
 alias aws_login_adscale_prod="aws sso login --profile adscale-prod"
 
@@ -208,3 +211,10 @@ typeset +x FPATH
 # Raise open-file limit (macOS defaults to 256, too low for git scans that fan
 # process substitutions across many branches). Hard limit is unlimited.
 ulimit -n 8192
+
+# Pi
+export PATH="/Users/omer/.local/share/fnm/node-versions/v24.15.0/installation/bin:$PATH"
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/omer/.local/bin:$PATH"
