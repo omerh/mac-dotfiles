@@ -187,6 +187,12 @@
         "space": "plugin:toggle",
         "i": "plugin:install"
       }
+    },
+    {
+      "context": "Chat",
+      "bindings": {
+        "ctrl+alt+g": "command:orca-agent-view"
+      }
     }
   ]
 }
