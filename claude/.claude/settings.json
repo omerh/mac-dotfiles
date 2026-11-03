@@ -15,7 +15,7 @@
       "WebFetch(domain:community.cloudflare.com)",
       "WebFetch(domain:developers.cloudflare.com)",
       "WebFetch(domain:grafana.com)",
-      "Read(*)",
+      "Read",
       "Bash(terraform state show:*)",
       "Bash(terraform fmt:*)",
       "Bash(tree:*)",
