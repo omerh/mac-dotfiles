@@ -19,6 +19,33 @@ Homebrew (formulae + casks + taps) replaces apt + mise, no systemd auto-sync.
 
 Podman, gcloud, raycast, etc. aren't tracked — their state is Mac-specific and regenerated on first use of the tool.
 
+## Runtimes and per-directory env (mise)
+
+[mise](https://mise.jdx.dev) is the only runtime and env manager in `.zshrc` (`eval "$(mise activate zsh)"`). It replaced two things on 2026-11-20:
+
+- **oh-my-zsh `dotenv` plugin** (`zinit snippet OMZP::dotenv`) - removed. It sourced `.env` at shell start and on `cd`, but never unset anything on leaving, so one project's credentials leaked into the next (static AWS keys from one repo overrode `AWS_PROFILE` in another and broke `kubectl`).
+- **fnm** (`fnm env --use-on-cd`, `alias nvm='fnm'`, and a hardcoded fnm node dir on `PATH`) - removed. The hardcoded `PATH` entry pinned one node version everywhere and defeated the per-project switch.
+
+`~/.config/mise/config.toml` (NOT tracked in this repo - recreate it by hand on a new Mac):
+
+```toml
+[settings]
+env_file = ".env"
+idiomatic_version_file_enable_tools = ["node"]
+
+[tools]
+node = "24"
+```
+
+Behaviour:
+
+- `env_file = ".env"`: mise loads `.env` from the current dir and its parents (so it stays loaded deep inside a repo) and unsets the variables on leaving the tree. It parses the file as key/value pairs; it does not execute it.
+- There is no per-directory prompt or allowlist: any repo's `.env` loads silently. If that turns out too loose, drop `env_file` and add `[env]` with `_.file = ".env"` to a `mise.toml` per project (needs `mise trust`).
+- `idiomatic_version_file_enable_tools = ["node"]`: mise honours `.nvmrc` / `.node-version`. Run `mise install` in a project to fetch a version it asks for.
+- Prefer `AWS_PROFILE=<profile>` in a `.env` over static `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY`: static keys win over the profile in every tool.
+
+Ghostty opens new tabs in the previous tab's directory (`tab-inherit-working-directory = true`, the default), so a new tab gets that directory's `.env` immediately.
+
 ## Quick start (new Mac, cold start)
 
 Order matters — the SSH key needed to clone this repo lives in the sensitive bundle, so restore that **first**.

@@ -36,6 +36,5 @@
 
 - `docker` is aliased to `podman` (no real docker binary). Mostly CLI-compatible; networking, volume semantics, and rootless defaults differ.
 - `DOCKER_HOST` points at the podman socket, so SAM/docker-compose talk to podman.
-- `nvm` is aliased to `fnm`. Subcommands mostly overlap, not all.
 - Tool runtimes (node, python, etc.) are managed by `mise`, not the system.
 - `ls`/`l`/`ll` -> eza and `cd` -> zoxide are interactive-only; they don't apply to Bash tool commands, but keep them in mind for commands you suggest I run myself.

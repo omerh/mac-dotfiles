@@ -34,15 +34,12 @@ zinit light cowboyd/zsh-rust
 zinit snippet OMZL::git.zsh
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
-zinit snippet OMZP::dotenv
 zinit snippet OMZP::command-not-found
 
 # GCLOUD  (use $HOMEBREW_PREFIX from `brew shellenv` instead of forking `brew --prefix` twice)
 source "$HOMEBREW_PREFIX/share/google-cloud-sdk/path.zsh.inc"
 source "$HOMEBREW_PREFIX/share/google-cloud-sdk/completion.zsh.inc"
 
-# fnm completion
-eval "$(fnm env --use-on-cd --shell zsh)"
 
 # Load completions
 autoload -Uz compinit && compinit
@@ -142,7 +139,6 @@ alias zupdate='zinit update --parallel'
 # DNS
 alias purge_dns='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 ## Old Habits
-alias nvm='fnm'
 #alias grep='rg'
 alias docker='podman'
 
@@ -212,8 +208,6 @@ typeset +x FPATH
 # process substitutions across many branches). Hard limit is unlimited.
 ulimit -n 8192
 
-# Pi
-export PATH="/Users/omer/.local/share/fnm/node-versions/v24.15.0/installation/bin:$PATH"
 
 
 # Added by Antigravity CLI installer
