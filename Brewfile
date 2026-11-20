@@ -68,7 +68,7 @@ brew "podman"
 # Command-line shell and scripting language
 brew "powershell"
 # Interpreted, interactive, object-oriented programming language (gcloud-cli needs this one)
-brew "python@3.13"
+brew "python@3.14"
 # Interpreted, interactive, object-oriented programming language (provides `python3`)
 brew "python@3.15"
 # Persistent key-value database, with built-in net interface
