@@ -235,6 +235,7 @@
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark",
+  "switchModelsOnFlag": false,
   "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
   "autoMode": {
@@ -277,5 +278,6 @@
       "**Org-specific CLIs**: aws, az, terraform, tailscale, op (1Password CLI), kubectl, helm, gh, dig, yq, yamllint",
       "routine under tf/plans/*/run*.sh prefix: running Terraform plan scripts (never apply) with AWS_PROFILE=tf, invoked from inside the plan directory, without piping through grep/head/less"
     ]
-  }
+  },
+  "model": "claude-fable-5-2"
 }

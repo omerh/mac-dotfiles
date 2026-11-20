@@ -1,12 +1,30 @@
-
-cursor-style-blink = false
+# --- Appearance ---
 font-size = 16
+cursor-style-blink = false
+window-width = 160
+window-height = 45
+split-divider-color = #ffffff
+unfocused-split-opacity = 0.85
+
+# --- Behavior ---
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 copy-on-select = clipboard
 confirm-close-surface = false
-scrollback-limit = 100000000
-window-width = 160
-window-height = 45
-split-divider-color = #ffffff
-shell-integration-features = ssh-terminfo
+window-save-state = always
+scrollback-limit = 10000000
+
+# --- Shell integration / SSH ---
+shell-integration-features = ssh-env,ssh-terminfo,sudo
+
+# --- Notifications ---
+notify-on-command-finish = unfocused
+notify-on-command-finish-action = no-bell,notify
+notify-on-command-finish-after = 30s
+
+# --- Keybinds ---
+keybind = cmd+shift+k=reset
+# keybind = global:cmd+grave_accent=toggle_quick_terminal
+
+# --- Updates ---
+auto-update = download

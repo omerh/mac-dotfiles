@@ -16,6 +16,7 @@ Homebrew (formulae + casks + taps) replaces apt + mise, no systemd auto-sync.
 | `gh` | GitHub CLI `config.yml` (NOT `hosts.yml` — that has the auth token) |
 | `ohmyposh` | Oh My Posh themes (`base.toml`, `zen.toml`) |
 | `zed` | Zed editor `settings.json` |
+| `mise` | mise global config (`~/.config/mise/config.toml`) |
 
 Podman, gcloud, raycast, etc. aren't tracked — their state is Mac-specific and regenerated on first use of the tool.
 
@@ -26,7 +27,7 @@ Podman, gcloud, raycast, etc. aren't tracked — their state is Mac-specific and
 - **oh-my-zsh `dotenv` plugin** (`zinit snippet OMZP::dotenv`) - removed. It sourced `.env` at shell start and on `cd`, but never unset anything on leaving, so one project's credentials leaked into the next (static AWS keys from one repo overrode `AWS_PROFILE` in another and broke `kubectl`).
 - **fnm** (`fnm env --use-on-cd`, `alias nvm='fnm'`, and a hardcoded fnm node dir on `PATH`) - removed. The hardcoded `PATH` entry pinned one node version everywhere and defeated the per-project switch.
 
-`~/.config/mise/config.toml` (NOT tracked in this repo - recreate it by hand on a new Mac):
+`~/.config/mise/config.toml` (the `mise` stow package; `mise use -g` and `mise settings` write straight into the repo):
 
 ```toml
 [settings]

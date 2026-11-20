@@ -1,3 +1,6 @@
+# Keep PATH entries unique (first occurrence wins)
+typeset -U path PATH
+
 # Brew
 if [[ -f "/opt/homebrew/bin/brew" ]] then
   # If you're using macOS, you'll want this enabled
@@ -24,7 +27,6 @@ source "${ZINIT_HOME}/zinit.zsh"
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 # zinit light zsh-users/zsh-autosuggestions
-zinit light Tarrasch/zsh-autoenv
 
 zinit ice ver"v1"
 zinit light cowboyd/zsh-rust
@@ -73,7 +75,7 @@ eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/zen.toml)"
 # bindkey '^[w' kill-region
 
 # History
-HISTSIZE=10000
+HISTSIZE=100000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
@@ -130,8 +132,9 @@ alias aws_login_enx_orbital="aws sso login --profile enx-orbital"
 alias aws_login_enx_sa_cs="aws sso login --profile enx-sa-cs"
 
 alias aws_login_adscale_prod="aws sso login --profile adscale-prod"
+alias aws_login_adscale_root="aws sso login --profile adscale-root"
 
-alias aws_login_all="aws_login_dev && aws_login_prod && aws_login_org && aws_login_analytics && aws_login_enx_prod && aws_login_enx_dev"
+alias aws_login_all="aws_login_dev && aws_login_prod && aws_login_org && aws_login_analytics && aws_login_enx_prod && aws_login_enx_dev && aws_login_adscale_root && aws_login_prod"
 
 ## zinit
 alias zupdate='zinit update --parallel'
@@ -207,8 +210,3 @@ typeset +x FPATH
 # Raise open-file limit (macOS defaults to 256, too low for git scans that fan
 # process substitutions across many branches). Hard limit is unlimited.
 ulimit -n 8192
-
-
-
-# Added by Antigravity CLI installer
-export PATH="/Users/omer/.local/bin:$PATH"
