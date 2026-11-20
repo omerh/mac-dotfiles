@@ -68,6 +68,8 @@ brew "ripgrep"
 brew "rust"
 # 7-Zip is a file archiver with a high compression ratio
 brew "sevenzip"
+# Static analysis and lint tool, for (ba)sh scripts
+brew "shellcheck"
 # CLI for snowflake
 brew "snowflake-cli"
 # Organize software neatly under a single directory tree (e.g. /usr/local)

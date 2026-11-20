@@ -47,6 +47,17 @@ Behaviour:
 
 Ghostty opens new tabs in the previous tab's directory (`tab-inherit-working-directory = true`, the default), so a new tab gets that directory's `.env` immediately.
 
+## Kubernetes context (kubie)
+
+`kx` is aliased to `kubie ctx` (`alias kx='kubie ctx'` in `.zshrc`; [kubie](https://github.com/sbstp/kubie) comes from the `Brewfile`). It replaced `alias kx='kubectx'` on 2026-11-20.
+
+- **Why:** `kubectx` rewrites `current-context` in the shared `~/.kube/config`, so switching in one tab switched every tab - including one about to run a prod command.
+- `kx` shows a context picker, then opens a sub-shell with its own private copy of the kubeconfig. Other tabs are unaffected.
+- `exit` (or ctrl+d) leaves the context; `kx -` goes back to the previous one; `kx <context> -n <namespace>` enters a namespace directly.
+- The global `current-context` no longer changes, so a new tab starts on whatever it was last set to.
+- One-off command without a sub-shell: `kubie exec <context> <namespace> <command>`.
+- `kubectx` is still installed (and `OMZP::kubectx` still loaded) for the old global switch.
+
 ## Quick start (new Mac, cold start)
 
 Order matters — the SSH key needed to clone this repo lives in the sensitive bundle, so restore that **first**.
@@ -190,4 +201,4 @@ Caches and regenerable state — `.cache/`, `.npm/`, `.zcompcache/`, `.zcompdump
 
 ## Pre-commit
 
-`lefthook.yml` runs [gitleaks](https://github.com/gitleaks/gitleaks) on staged changes. If a secret slips through, the commit is blocked.
+`lefthook.yml` runs [gitleaks](https://github.com/gitleaks/gitleaks) on staged changes and [trivy](https://github.com/aquasecurity/trivy) (vulns + secrets + misconfig) on the working tree, shellcheck on staged `*.sh`, and a check that rejects new download-and-execute lines (`curl | sh`). Any finding blocks the commit.

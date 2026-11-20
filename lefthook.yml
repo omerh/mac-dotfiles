@@ -2,4 +2,13 @@ pre-commit:
   parallel: true
   jobs:
     - name: gitleaks
-      run: gitleaks protect --staged --no-banner
+      run: gitleaks git --pre-commit --staged --redact --no-banner
+    - name: trivy
+      run: trivy fs --scanners vuln,secret,misconfig --exit-code 1 --skip-version-check --quiet .
+    - name: shellcheck
+      glob: ["*.sh", "**/*.sh"]
+      run: shellcheck --severity=warning {staged_files}
+    # Block newly added lines that download and execute remote code
+    - name: pipe-to-shell
+      run: |
+        ! git diff --cached -U0 -- . ':!lefthook.yml' | grep -E '^\+.*(curl|wget).*\|[[:space:]]*(sudo[[:space:]]+)?(ba|z)?sh([[:space:]]|$)|^\+.*(sh|eval)[[:space:]]+(-c[[:space:]]+)?"?\$\((curl|wget)|^\+.*(source|\.)[[:space:]]+<\((curl|wget)'
