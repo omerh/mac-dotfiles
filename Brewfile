@@ -40,6 +40,8 @@ brew "k6"
 brew "kubectx"
 # Kubernetes command-line interface
 brew "kubernetes-cli"
+# Much more powerful alternative to kubectx and kubens
+brew "kubie"
 # Fast and powerful Git hooks manager for any type of projects
 brew "lefthook"
 # Postgres C API library

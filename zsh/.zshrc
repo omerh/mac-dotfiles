@@ -113,7 +113,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 # Aliases
 alias c='clear'
 alias k='kubectl'
-alias kx='kubectx'
+alias kx='kubie ctx'
 alias tailscale='/Applications/Tailscale.app/Contents/MacOS/Tailscale'
 
 ## AWS
@@ -188,8 +188,6 @@ fi
 if [[ ":$PATH:" != *":/Users/omer/.local/bin:"* ]]; then
   export PATH=/Users/omer/.local/bin:"$PATH"
 fi
-# Added by dbt Fusion extension
-alias dbtf=/Users/omer/.local/bin/dbt
 
 eval "$(mise activate zsh)"
 
