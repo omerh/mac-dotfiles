@@ -3,7 +3,7 @@
 My macOS dotfiles, managed with [GNU Stow](https://www.gnu.org/software/stow/).
 
 Mirrors the layout of my Linux [dotfiles](https://github.com/omerh/dotfiles), trimmed for macOS:
-Homebrew (formulae + casks + taps) replaces apt + mise, no systemd auto-sync.
+Homebrew (formulae + casks + taps) replaces apt, mise manages language runtimes, no systemd auto-sync.
 
 ## Packages
 
@@ -35,7 +35,19 @@ env_file = ".env"
 idiomatic_version_file_enable_tools = ["node"]
 
 [tools]
-node = "24"
+caddy = "2.11.9"
+"cargo:cargo-audit" = "0.23.0"
+"cargo:cargo-leptos" = "0.3.12"
+"cargo:cargo-outdated" = "0.19.0"
+"cargo:minhtml" = "0.18.1"
+go = "1.27"
+"go:github.com/air-verse/air" = "1.67.4"
+"go:golang.org/x/tools/gopls" = "0.24.0"
+golangci-lint = "2.15"
+lefthook = "2.2.2"
+node = "26"
+rust = "1.100.0"
+uv = "0.13.9"
 ```
 
 Behaviour:
@@ -46,6 +58,34 @@ Behaviour:
 - Prefer `AWS_PROFILE=<profile>` in a `.env` over static `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY`: static keys win over the profile in every tool.
 
 Ghostty opens new tabs in the previous tab's directory (`tab-inherit-working-directory = true`, the default), so a new tab gets that directory's `.env` immediately.
+
+### Runtimes and dev tools (mise only)
+
+Go, Rust, `uv`, `caddy`, `lefthook`, `golangci-lint`, and the Go/cargo CLI tools are managed by mise only. They moved out of the `Brewfile` on 2026-11-20:
+
+- **Why:** brew and mise each had a copy. The mise shims are first on `PATH`, but no global version was set, so `brew bundle` crashed when it called `go`, `cargo` and `uv` through them.
+- Brew's `go`, `rust`, `golangci-lint`, `uv`, `caddy` and `lefthook` are uninstalled, and the `go "..."` / `cargo "..."` lines are gone from the `Brewfile`.
+- **Python is the exception: it comes from brew.** `awscli`, `azure-cli`, `gcloud-cli`, `oci-cli`, `snowflake-cli`, `yamllint` and `yt-dlp` depend on brew's `python@3.13` / `3.14` / `3.15` anyway, so a second global copy in mise bought nothing. `python3` is brew's 3.15 and `python3.13` is brew's 3.13; both are in the `Brewfile`.
+- Projects still pin their own Python in `mise.toml` (`python = "3.12"`), and mise takes over inside those directories.
+
+Day to day:
+
+```sh
+mise use -g go@1.27                           # global default (writes into this repo)
+mise use go@1.26.2                            # per-project pin (writes ./mise.toml)
+mise use -g go:golang.org/x/tools/gopls       # Go tool
+mise use -g cargo:cargo-audit                 # cargo crate (compiles from source)
+mise outdated                                 # what has updates
+mise upgrade                                  # update within the configured range (go 1.27.x, node 26.x, ...)
+mise upgrade --bump                           # move past the pins/ranges (e.g. go 1.27 -> 1.28, uv 0.13.9 -> newest)
+mise lock -g                                  # refresh ~/.config/mise/mise.lock after any change
+mise prune --dry-run                          # versions nothing uses; `mise prune` removes them
+```
+
+- Install Go tools and crates through mise, not `go install` / `cargo install`: those land inside one toolchain version and drop off `PATH` on the next switch.
+- Versions are pinned (no `latest`) and locked in `mise.lock`, tracked next to `config.toml`. It records exact versions plus, where upstream publishes them, checksums (`caddy`, `go`, `node`, `uv`, `lefthook`, `golangci-lint`) and provenance (`uv`, `lefthook`, `golangci-lint`).
+- The `cargo:` and `go:` tools and `rust` are locked by version only: no checksum. They build from crates.io / the Go module proxy, so bump them deliberately. `cargo:` ones recompile (`cargo-leptos` takes about 6 minutes).
+- Do not put these back in the `Brewfile`: a brew copy is shadowed by the mise shim and only breaks `brew bundle` again.
 
 ## Kubernetes context (kubie)
 
@@ -76,7 +116,7 @@ cd ~/personal/mac-dotfiles
 ./install.sh
 ```
 
-`install.sh` handles: Xcode CLT (idempotent — usually already installed by step 2) → Homebrew → `brew bundle install` from `Brewfile` (formulae, casks, taps) → `stow` every package → set brew zsh as default shell → install lefthook git hooks. zinit self-installs from `.zshrc` on first shell open.
+`install.sh` handles: Xcode CLT (idempotent — usually already installed by step 2) → Homebrew → `brew bundle install` from `Brewfile` (formulae, casks, taps) → `stow` every package → set brew zsh as default shell → `mise install` (runtimes and tools from the mise config) → install lefthook git hooks. zinit self-installs from `.zshrc` on first shell open.
 
 Expect to be present at the keyboard during the run: `sudo` password (for `/etc/shells` + some casks), and a few cask-specific GUI installers (1Password, Tailscale, etc.). If a couple of `vscode --install-extension` lines fail on the first pass, re-run `brew bundle install --file=Brewfile` to catch them.
 
@@ -93,10 +133,17 @@ Restore the rest of the bundle later with:
 ## Updating the Brewfile
 
 ```sh
-brew bundle dump --file=Brewfile --describe --force
+brew bundle dump --file=Brewfile --no-go --no-cargo --force
+brew bundle check --file=Brewfile --verbose   # should print "dependencies are satisfied"
 ```
 
 Run this any time you install/uninstall a brew package to keep the inventory current.
+
+- `--no-go --no-cargo`: Go and cargo tools live in the mise config, not the `Brewfile` (see [Runtimes and dev tools](#runtimes-and-dev-tools-mise-only)).
+- `--describe` is gone in Homebrew 7 (it errors); description comments are now the default.
+- The dump writes `tap "hashicorp/tap", trusted: true`, because Homebrew 7 ignores third-party taps until they are trusted (`brew trust`). Keep third-party taps to the ones actually in use.
+- The dump drops the `brew "python@3.13"` and `brew "python@3.15"` lines (they are dependencies, not on-request installs); put them back by hand, or `brew bundle cleanup` will uninstall 3.13 and break `gcloud`.
+- `brew "libpq", link: true` is deliberate: `libpq` is keg-only and the link is what puts `psql` on `PATH`.
 
 ## Adding a new package
 
@@ -171,7 +218,7 @@ These were installed via the Mac App Store. To track them in the Brewfile, insta
 ```sh
 brew install mas
 mas list                                          # see what's signed in
-brew bundle dump --file=Brewfile --describe --force
+brew bundle dump --file=Brewfile --no-go --no-cargo --force
 ```
 
 | App | Notes |

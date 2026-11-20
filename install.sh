@@ -64,9 +64,13 @@ else
   info "zsh already the default shell"
 fi
 
-# 7. Lefthook hooks
+# 7. mise-managed runtimes and tools (node, go, rust, uv, lefthook, ...)
+info "Installing mise tools..."
+mise install
+
+# 8. Lefthook hooks (lefthook comes from mise)
 info "Installing lefthook git hooks..."
-lefthook install
+mise exec -- lefthook install
 
 # Create podman instance
 if ! podman machine list --format "{{.Name}}" | grep -q "^default$"; then
