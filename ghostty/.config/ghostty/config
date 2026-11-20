@@ -1,5 +1,6 @@
 # --- Appearance ---
-font-size = 16
+theme = Tokyo Twilight
+font-size = 17
 cursor-style-blink = false
 window-width = 160
 window-height = 45
