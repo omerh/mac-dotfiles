@@ -40,6 +40,7 @@ fish_add_path -g --path $HOME/.local/bin
 status is-interactive; or return
 
 set -gx GPG_TTY (tty)
+set -g fish_greeting
 
 # Prompt: functions/fish_prompt.fish and fish_right_prompt.fish
 set -g fish_transient_prompt 1
