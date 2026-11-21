@@ -52,16 +52,23 @@ stow --target="$HOME" --restow zsh vim git ghostty gh ohmyposh zed mise
 # (sessions, history, plugins) that must stay out of the repo, so only the
 # tracked files inside it may be symlinked, never the directory itself
 stow --target="$HOME" --restow --no-folding claude
+# fish too: ~/.config/fish also gets fish_variables and generated completions
+stow --target="$HOME" --restow --no-folding fish
 
 # 6. Default shell
-ZSH_BIN="$(brew --prefix)/bin/zsh"
-if [[ "$SHELL" != "$ZSH_BIN" ]]; then
-  info "Setting brew zsh as default shell..."
-  grep -qx "$ZSH_BIN" /etc/shells || echo "$ZSH_BIN" | sudo tee -a /etc/shells >/dev/null
-  chsh -s "$ZSH_BIN"
+DEFAULT_SHELL=""
+until [[ "$DEFAULT_SHELL" == "zsh" || "$DEFAULT_SHELL" == "fish" ]]; do
+  read -r -p "Default shell - zsh or fish? [zsh] " DEFAULT_SHELL
+  DEFAULT_SHELL="${DEFAULT_SHELL:-zsh}"
+done
+SHELL_BIN="$(brew --prefix)/bin/$DEFAULT_SHELL"
+if [[ "$SHELL" != "$SHELL_BIN" ]]; then
+  info "Setting brew $DEFAULT_SHELL as default shell..."
+  grep -qx "$SHELL_BIN" /etc/shells || echo "$SHELL_BIN" | sudo tee -a /etc/shells >/dev/null
+  chsh -s "$SHELL_BIN"
   warn "Log out and back in for the shell change to take effect"
 else
-  info "zsh already the default shell"
+  info "$DEFAULT_SHELL already the default shell"
 fi
 
 # 7. mise-managed runtimes and tools (node, go, rust, uv, lefthook, ...)
@@ -89,5 +96,5 @@ else
   info "claude code already installed"
 fi
 
-info "Done. Open a new terminal - zinit will self-install on first shell."
+info "Done. Open a new terminal - under zsh, zinit will self-install on first shell."
 info "Restore secrets with: tar -xzf <mac-sensitive-*.tar.gz> -C \$HOME"

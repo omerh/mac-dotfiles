@@ -10,6 +10,7 @@ Homebrew (formulae + casks + taps) replaces apt, mise manages language runtimes,
 | Package | What it manages |
 |---------|-----------------|
 | `zsh` | `.zshrc`, `.zshenv`, `.profile` (zinit auto-installs on first shell) |
+| `fish` | `config.fish` - the `.zshrc` port, minus what fish does itself (highlighting, completions, history, autocd). zsh stays the default shell |
 | `vim` | `.vimrc` |
 | `git` | `.gitconfig` and `.config/git/ignore` |
 | `ghostty` | Ghostty terminal config (`~/.config/ghostty/config`) |
@@ -116,7 +117,7 @@ cd ~/personal/mac-dotfiles
 ./install.sh
 ```
 
-`install.sh` handles: Xcode CLT (idempotent — usually already installed by step 2) → Homebrew → `brew bundle install` from `Brewfile` (formulae, casks, taps) → `stow` every package → set brew zsh as default shell → `mise install` (runtimes and tools from the mise config) → install lefthook git hooks. zinit self-installs from `.zshrc` on first shell open.
+`install.sh` handles: Xcode CLT (idempotent — usually already installed by step 2) → Homebrew → `brew bundle install` from `Brewfile` (formulae, casks, taps) → `stow` every package → ask whether zsh or fish is the default shell and set it → `mise install` (runtimes and tools from the mise config) → install lefthook git hooks. zinit self-installs from `.zshrc` on first shell open.
 
 Expect to be present at the keyboard during the run: `sudo` password (for `/etc/shells` + some casks), and a few cask-specific GUI installers (1Password, Tailscale, etc.). If a couple of `vscode --install-extension` lines fail on the first pass, re-run `brew bundle install --file=Brewfile` to catch them.
 
