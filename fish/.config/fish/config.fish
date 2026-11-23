@@ -70,21 +70,10 @@ alias gen_password="openssl rand -base64 32 | tr -d '=+/' | cut -c1-32"
 alias purge_dns='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 alias get_ts="tailscale status --json | jq -r '.Peer[]?.DNSName'"
 
-## AWS
-alias aws_login_dev='aws sso login --profile dev'
-alias aws_ecr_login_dev='aws_login_dev && aws ecr get-login-password --profile dev --region eu-central-1 | podman login --username AWS --password-stdin 502818572390.dkr.ecr.eu-central-1.amazonaws.com'
-alias aws_ecr_login_enx_dev='aws_login_enx_dev && aws ecr get-login-password --profile enx-dev --region eu-west-1 | podman login --username AWS --password-stdin 241533118296.dkr.ecr.eu-west-1.amazonaws.com'
-alias aws_login_devdev='aws sso login --profile devdev'
-alias aws_login_prod='aws sso login --profile prod'
-alias aws_login_org='aws sso login --profile org'
-alias aws_login_analytics='aws sso login --profile analytics'
-alias aws_login_enx_high='aws sso login --profile enx-high'
-alias aws_login_enx_fin='aws sso login --profile enx-fin'
-alias aws_login_enx_prod='aws sso login --profile enx-prod'
-alias aws_login_enx_dev='aws sso login --profile enx-dev'
-alias aws_login_enx_orbital='aws sso login --profile enx-orbital'
-alias aws_login_enx_sa_cs='aws sso login --profile enx-sa-cs'
-alias aws_login_adscale_prod='aws sso login --profile adscale-prod'
-alias aws_login_adscale_root='aws sso login --profile adscale-root'
-# One login per SSO session covers every profile on it
-alias aws_login_all='aws sso login --sso-session xpand && aws sso login --sso-session enx && aws sso login --sso-session adscale'
+## AWS - one login per SSO session covers every profile on it
+alias aws_login_xpend='aws sso login --sso-session xpand'
+alias aws_login_enx='aws sso login --sso-session enx'
+alias aws_login_adscale='aws sso login --sso-session adscale'
+alias aws_login_all='aws_login_xpend && aws_login_enx && aws_login_adscale'
+alias aws_ecr_login_dev='aws_login_xpend && aws ecr get-login-password --profile dev --region eu-central-1 | podman login --username AWS --password-stdin 502818572390.dkr.ecr.eu-central-1.amazonaws.com'
+alias aws_ecr_login_enx_dev='aws_login_enx && aws ecr get-login-password --profile enx-dev --region eu-west-1 | podman login --username AWS --password-stdin 241533118296.dkr.ecr.eu-west-1.amazonaws.com'
