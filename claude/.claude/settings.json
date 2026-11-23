@@ -44,6 +44,7 @@
       "Bash(kubectl delete:*)"
     ]
   },
+  "model": "fable",
   "hooks": {
     "SessionStart": [
       {
@@ -242,6 +243,7 @@
   },
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
   "theme": "dark",
   "switchModelsOnFlag": false,
   "agentPushNotifEnabled": true,
@@ -286,6 +288,5 @@
       "**Org-specific CLIs**: aws, az, terraform, tailscale, op (1Password CLI), kubectl, helm, gh, dig, yq, yamllint",
       "routine under tf/plans/*/run*.sh prefix: running Terraform plan scripts (never apply) with AWS_PROFILE=tf, invoked from inside the plan directory, without piping through grep/head/less"
     ]
-  },
-  "model": "claude-fable-5-2"
+  }
 }

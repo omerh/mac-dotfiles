@@ -90,4 +90,5 @@ alias aws_login_enx_orbital='aws sso login --profile enx-orbital'
 alias aws_login_enx_sa_cs='aws sso login --profile enx-sa-cs'
 alias aws_login_adscale_prod='aws sso login --profile adscale-prod'
 alias aws_login_adscale_root='aws sso login --profile adscale-root'
-alias aws_login_all='aws_login_dev && aws_login_prod && aws_login_org && aws_login_analytics && aws_login_enx_prod && aws_login_enx_dev && aws_login_adscale_root && aws_login_prod'
+# One login per SSO session covers every profile on it
+alias aws_login_all='aws sso login --sso-session xpand && aws sso login --sso-session enx && aws sso login --sso-session adscale'
