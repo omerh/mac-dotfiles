@@ -39,8 +39,10 @@ zinit snippet OMZP::sudo
 zinit snippet OMZP::command-not-found
 
 # GCLOUD  (use $HOMEBREW_PREFIX from `brew shellenv` instead of forking `brew --prefix` twice)
-source "$HOMEBREW_PREFIX/share/google-cloud-sdk/path.zsh.inc"
-source "$HOMEBREW_PREFIX/share/google-cloud-sdk/completion.zsh.inc"
+if [[ -d "$HOMEBREW_PREFIX/share/google-cloud-sdk" ]]; then
+  source "$HOMEBREW_PREFIX/share/google-cloud-sdk/path.zsh.inc"
+  source "$HOMEBREW_PREFIX/share/google-cloud-sdk/completion.zsh.inc"
+fi
 
 
 # Load completions
@@ -89,7 +91,6 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 setopt INC_APPEND_HISTORY        # Add commands immediately to history
-setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicates first
 
 # Navigation
 setopt AUTO_CD
@@ -152,9 +153,6 @@ alias get_ts="tailscale status --json | jq -r '.Peer[]?.DNSName'"
 # kubernetes edit
 export KUBE_EDITOR="zed --wait"
 
-# Secrets
-[[ -f ~/.secrets ]] && source ~/.secrets
-
 # Android
 export ANDROID_HOME=~/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools
@@ -185,11 +183,6 @@ if [[ $- == *i* ]]; then
   alias ls='eza -snew'
   alias ll='eza -l -snew'
 fi
-# Added by dbt Fusion extension (ensure dbt binary dir on PATH)
-if [[ ":$PATH:" != *":/Users/omer/.local/bin:"* ]]; then
-  export PATH=/Users/omer/.local/bin:"$PATH"
-fi
-
 eval "$(mise activate zsh)"
 
 alias gen_password="openssl rand -base64 32 | tr -d '=+/' | cut -c1-32"

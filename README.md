@@ -174,7 +174,7 @@ What's inside:
 
 | Path | Why it's sensitive |
 |------|--------------------|
-| `.ssh/`, `.aws/`, `.kube/`, `.gnupg/`, `.netrc`, `.secrets` | Keys / credentials |
+| `.ssh/`, `.aws/`, `.kube/`, `.gnupg/`, `.netrc` | Keys / credentials |
 | `.docker/config.json`, `.config/containers/auth.json` | Registry auth |
 | `.claude/`, `.claude.json*`, `.cursor/`, `.vscode/`, `.codex/` | API tokens + local state |
 | `.config/gcloud/`, `.config/stripe/`, `.config/op/`, `.config/1Password/` | Cloud / vault sessions |

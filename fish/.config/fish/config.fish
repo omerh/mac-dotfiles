@@ -12,9 +12,6 @@ fish_add_path -ga --path $ANDROID_HOME/emulator $ANDROID_HOME/platform-tools
 set -gx KUBE_EDITOR "zed --wait"
 set -gx LC_TIME en_US.UTF-8
 
-# Secrets (plain `export KEY=value` lines, which fish understands)
-test -f ~/.secrets; and source ~/.secrets
-
 # Podman to docker for SAM - the socket path is cached (shared with zsh) instead of
 # forking `podman machine inspect` on every shell. Delete the cache file after
 # recreating the podman machine to refresh it.
@@ -42,8 +39,7 @@ status is-interactive; or return
 set -gx GPG_TTY (tty)
 set -g fish_greeting
 
-# Prompt: functions/fish_prompt.fish and fish_right_prompt.fish
-set -g fish_transient_prompt 1
+# Prompt: functions/fish_prompt.fish
 set -g __fish_git_prompt_showdirtystate 1
 set -g __fish_git_prompt_showupstream auto
 set -g __fish_git_prompt_char_dirtystate ✗

@@ -11,7 +11,6 @@ PATHS=(
   .aws
   .kube
   .gnupg
-  .secrets
   .netrc
 
   # Container registry creds + Docker auth
