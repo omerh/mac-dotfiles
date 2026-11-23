@@ -56,6 +56,9 @@ set -g __fish_git_prompt_color_upstream cyan
 fzf --fish | source
 zoxide init fish --cmd cd | source
 
+# First Tab opens the pager with the first entry already selected
+bind tab 'if commandline --paging-mode; commandline -f complete; else; commandline -f complete down-line; end'
+
 alias l='eza -snew'
 alias ls='eza -snew'
 alias ll='eza -l -snew'
