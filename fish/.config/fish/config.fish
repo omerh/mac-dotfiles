@@ -47,14 +47,14 @@ set -g fish_transient_prompt 1
 set -g __fish_git_prompt_showdirtystate 1
 set -g __fish_git_prompt_showupstream auto
 set -g __fish_git_prompt_char_dirtystate ✗
-set -g __fish_git_prompt_char_stagedstate ✗
+set -g __fish_git_prompt_char_stagedstate +
 set -g __fish_git_prompt_char_upstream_ahead ⇡
 set -g __fish_git_prompt_char_upstream_behind ⇣
 set -g __fish_git_prompt_char_upstream_equal ''
 set -g __fish_git_prompt_char_stateseparator ''
 set -g __fish_git_prompt_color_branch red --bold
 set -g __fish_git_prompt_color_dirtystate yellow
-set -g __fish_git_prompt_color_stagedstate yellow
+set -g __fish_git_prompt_color_stagedstate green
 set -g __fish_git_prompt_color_upstream cyan
 
 fzf --fish | source
